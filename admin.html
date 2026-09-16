@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMBG-620 Applications</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #080604;
+      color: #f5e6c8;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 30px auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #e5b85c;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 30px;
+    }
+
+    .application {
+      background: #120d08;
+      border: 1px solid #80602c;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .application h2 {
+      margin-top: 0;
+      color: #f2c66d;
+    }
+
+    .application p {
+      margin: 8px 0;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .pending {
+      background: #7a5a00;
+      color: #ffe9a6;
+    }
+
+    .accepted {
+      background: #145c2e;
+      color: #bfffd0;
+    }
+
+    .rejected {
+      background: #681b1b;
+      color: #ffd0d0;
+    }
+
+    .screenshots {
+      margin-top: 15px;
+    }
+
+    .screenshots img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 10px;
+      margin: 5px;
+      border: 1px solid #80602c;
+    }
+
+    button {
+      border: none;
+      padding: 12px 18px;
+      margin: 10px 5px 0 0;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .accept {
+      background: #16813c;
+      color: white;
+    }
+
+    .reject {
+      background: #a51f1f;
+      color: white;
+    }
+
+    #message {
+      text-align: center;
+      margin: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>⚔️ BMBG-620 APPLICATIONS ⚔️</h1>
+
+    <div class="subtitle">
+      State 620 Recruitment Management
+    </div>
+
+    <div id="message">Loading applications...</div>
+
+    <div id="applications"></div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+
+  <script>
+    const adminClient = supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const applicationsDiv = document.getElementById("applications");
+    const message = document.getElementById("message");
+
+    async function loadApplications() {
+
+      const { data, error } = await adminClient
+        .from(APPLICATION_TABLE)
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        message.textContent = "Could not load applications: " + error.message;
+        return;
+      }
+
+      message.textContent = "";
+
+      if (!data || data.length === 0) {
+        message.textContent = "No applications yet.";
+        return;
+      }
+
+      applicationsDiv.innerHTML = "";
+
+      data.forEach(app => {
+
+        const card = document.createElement("div");
+        card.className = "application";
+
+        const status = app.status || "pending";
+
+        let images = "";
+
+        if (app.image_urls) {
+
+          const paths = app.image_urls
+            .split(",")
+            .map(path => path.trim())
+            .filter(Boolean);
+
+          paths.forEach(path => {
+
+            const { data: imageData } = adminClient.storage
+              .from(IMAGE_BUCKET)
+              .getPublicUrl(path);
+
+            images += `
+              <a href="${imageData.publicUrl}" target="_blank">
+                <img src="${imageData.publicUrl}" alt="Application screenshot">
+              </a>
+            `;
+          });
+        }
+
+        card.innerHTML = `
+          <h2>${escapeHtml(app.username || "Unknown Player")}</h2>
+
+          <p><strong>Game ID:</strong> ${escapeHtml(app.game_id)}</p>
+          <p><strong>Current State:</strong> ${escapeHtml(app.current_state)}</p>
+          <p><strong>Preferred Clan:</strong> ${escapeHtml(app.preferred_clan)}</p>
+          <p><strong>Backup Clan:</strong> ${escapeHtml(app.backup_clan)}</p>
+          <p><strong>Overall Power:</strong> ${escapeHtml(app.overall_power)}</p>
+          <p><strong>First March:</strong> ${escapeHtml(app.first_march_power)}</p>
+          <p><strong>Second March:</strong> ${escapeHtml(app.second_march_power)}</p>
+
+          <p><strong>Reason:</strong><br>
+          ${escapeHtml(app.reason)}</p>
+
+          <div class="status ${status}">
+            ${status.toUpperCase()}
+          </div>
+
+          <div class="screenshots">
+            ${images}
+          </div>
+
+          <button class="accept"
+            onclick="changeStatus(${Number(app.id)}, 'accepted')">
+            ✓ ACCEPT
+          </button>
+
+          <button class="reject"
+            onclick="changeStatus(${Number(app.id)}, 'rejected')">
+            ✕ REJECT
+          </button>
+        `;
+
+        applicationsDiv.appendChild(card);
+      });
+    }
+
+    async function changeStatus(id, newStatus) {
+
+      const { error } = await adminClient
+        .from(APPLICATION_TABLE)
+        .update({ status: newStatus })
+        .eq("id", id);
+
+      if (error) {
+        alert("Could not update application: " + error.message);
+        return;
+      }
+
+      await loadApplications();
+    }
+
+    function escapeHtml(value) {
+      if (value === null || value === undefined) return "";
+
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    loadApplications();
+  </script>
+
+</body>
+</html>
