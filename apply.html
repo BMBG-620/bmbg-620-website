@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apply • State 620</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#30100d,#090807 45%,#030303);color:#f6ead2;font-family:Arial,Helvetica,sans-serif}
+header{padding:20px;border-bottom:1px solid #6c4b1f;background:#080706eF}header a{color:#e6ad48;text-decoration:none;font-weight:900}
+main{max-width:850px;margin:auto;padding:38px 16px 70px}h1{font-size:clamp(36px,8vw,68px);margin:8px 0;color:#e6ad48}p{color:#bfb3a0;line-height:1.6}
+form{background:linear-gradient(145deg,#17120d,#080706);border:1px solid #705326;border-radius:14px;padding:22px;box-shadow:0 25px 70px #000}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}label{display:grid;gap:7px;font-weight:800;font-size:13px}
+input,select,textarea{width:100%;background:#050505;color:white;border:1px solid #5b4728;border-radius:7px;padding:14px;font-size:16px}textarea{resize:vertical}
+.full{margin-top:18px}.upload{margin-top:18px;padding:16px;border:1px dashed #a77a30;border-radius:8px}
+button{width:100%;margin-top:20px;padding:17px;border:2px solid #e1aa46;border-radius:7px;background:linear-gradient(#a21d11,#5e0805);color:#ffdb87;font-weight:900;font-size:17px}
+#message{text-align:center;margin-top:15px}.ok{color:#80cf91}.err{color:#ff8b8b}@media(max-width:650px){.grid{grid-template-columns:1fr}}
+</style></head>
+<body><header><a href="index.html">← BACK TO STATE 620</a></header><main>
+<div style="font-weight:900;letter-spacing:.22em;color:#c99742">BMBG • STATE 620</div><h1>MIGRATION APPLICATION</h1>
+<p>Complete the form below and send your application to the State 620 leadership team.</p>
+<form id="applicationForm"><div class="grid">
+<label>Username / in-game name<input name="username" required></label>
+<label>In-game ID<input name="game_id" required></label>
+<label>Current state<input name="current_state" required></label>
+<label>Clan you want to apply to<select name="preferred_clan" required><option value="">Select clan</option><option>BMBG</option><option>FÜK</option><option>LUNA</option><option>MK</option><option>WR</option><option>TURK</option></select></label>
+<label>Backup clan<select name="backup_clan" required><option value="">Select backup</option><option>BMBG</option><option>FÜK</option><option>LUNA</option><option>MK</option><option>WR</option><option>TURK</option></select></label>
+<label>Overall power<input name="overall_power" placeholder="e.g. 250M" required></label>
+<label>First march power<input name="first_march_power" placeholder="e.g. 35M" required></label>
+<label>Second march power<input name="second_march_power" placeholder="e.g. 28M" required></label>
+</div>
+<label class="full">Why do you want to join State 620?<textarea name="reason" rows="5" required></textarea></label>
+<label class="upload">Upload bag screenshots<input id="images" type="file" accept="image/*" multiple required></label>
+<button id="submitButton" type="submit">SUBMIT APPLICATION</button><div id="message"></div>
+</form></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script>
+</body></html>
