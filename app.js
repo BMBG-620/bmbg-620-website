@@ -45,8 +45,8 @@ form.addEventListener("submit", async (e) => {
       preferred_clan: fd.get("preferred_clan"),
       backup_clan: fd.get("backup_clan"),
       overall_power: fd.get("overall_power"),
-      first_march_pow: fd.get("first_march_power"),
-      second_march_f: fd.get("second_march_power"),
+      first_march_power: fd.get("first_march_power"),
+      second_march_power: fd.get("second_march_power"),
       reason: fd.get("reason"),
       image_urls: paths.join(","),
       status: "pending"
