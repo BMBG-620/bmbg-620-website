@@ -37,7 +37,13 @@ button{width:100%;margin-top:20px;padding:17px;border:2px solid #e1aa46;border-r
 </select>
  </label>
 <label>Username / in-game name<input name="username" required></label>
-<label>In-game ID<input name="game_id" required></label>
+<label>In-game ID <button type="button" onclick="document.getElementById('gameIdHelp').style.display='block'" style="width:auto;margin:0 0 0 8px;padding:4px 9px;font-size:12px;border:1px solid #e6ad48;background:#17120d;color:#e6ad48;">❓ WHERE IS MY ID?</button><input name="game_id" required></label>
+ <div id="gameIdHelp" class="full" style="display:none;background:#0d0d0d;border:1px solid #e6ad48;border-radius:12px;padding:15px;text-align:center;">
+<strong style="color:#e6ad48;">❓ WHERE TO FIND YOUR GAME ID</strong>
+<p style="font-size:13px;">Open your account information in Dark War and look for the number beside <b>ID:</b></p>
+<img src="Screenshot_20260917_045005_Dark War.jpg" alt="Example showing where to find your Dark War Game ID" style="width:100%;max-width:600px;border-radius:10px;margin-top:8px;">
+<button type="button" onclick="document.getElementById('gameIdHelp').style.display='none'" style="margin-top:12px;">CLOSE</button>
+ </div>
 <label>Current state<input name="current_state" required></label>
  <label>Current clan<input name="current_clan" placeholder="e.g. BMBG" required></label>
 <label>Clan you want to apply to<select name="preferred_clan" required><option value="">Select clan</option><option>BMBG</option><option>FÜK</option><option>LUNA</option><option>MK</option><option>WR</option><option>TURK</option></select></label>
