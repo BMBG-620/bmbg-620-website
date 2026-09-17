@@ -15,27 +15,26 @@ form.addEventListener("submit", async (e) => {
   msg.textContent = "Submitting...";
 
   try {
-    if (
-      SUPABASE_URL.includes("PASTE_") ||
-      SUPABASE_PUBLISHABLE_KEY.includes("PASTE_")
-    ) {
-      throw new Error("Supabase details need adding to config.js.");
-    }
-
     const fd = new FormData(form);
     const paths = [];
 
-    for (const file of document.getElementById("images").files) {
-      const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-      const path = `${crypto.randomUUID()}-${safe}`;
+    const images = document.getElementById("images");
 
-      const { error } = await client.storage
-        .from(IMAGE_BUCKET)
-        .upload(path, file);
+    if (images && images.files.length > 0) {
+      for (const file of images.files) {
+        const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const path = `${crypto.randomUUID()}-${safe}`;
 
-      if (error) throw error;
+        const { error: uploadError } = await client.storage
+          .from(IMAGE_BUCKET)
+          .upload(path, file);
 
-      paths.push(path);
+        if (uploadError) {
+          throw uploadError;
+        }
+
+        paths.push(path);
+      }
     }
 
     const row = {
@@ -57,9 +56,11 @@ form.addEventListener("submit", async (e) => {
 
     const { error } = await client
       .from(APPLICATION_TABLE)
-      .insert(row);
+      .insert([row]);
 
-    if (error) throw error;
+    if (error) {
+      throw error;
+    }
 
     form.reset();
 
@@ -71,7 +72,8 @@ form.addEventListener("submit", async (e) => {
     console.error(err);
 
     msg.className = "err";
-    msg.textContent = "Could not submit: " + err.message;
+    msg.textContent =
+      "Could not submit: " + (err.message || String(err));
 
   } finally {
     btn.disabled = false;
