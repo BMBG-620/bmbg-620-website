@@ -144,7 +144,8 @@
         .order("created_at", { ascending: false });
 
       if (error) {
-        message.textContent = "Could not load applications: " + error.message;
+        message.textContent =
+          "Could not load applications: " + error.message;
         return;
       }
 
@@ -192,14 +193,22 @@
 
           <p><strong>Game ID:</strong> ${escapeHtml(app.game_id)}</p>
           <p><strong>Current State:</strong> ${escapeHtml(app.current_state)}</p>
+          <p><strong>Current Clan:</strong> ${escapeHtml(app.current_clan)}</p>
+
           <p><strong>Preferred Clan:</strong> ${escapeHtml(app.preferred_clan)}</p>
           <p><strong>Backup Clan:</strong> ${escapeHtml(app.backup_clan)}</p>
+
+          <p><strong>Watchtower Level:</strong> ${escapeHtml(app.watchtower_level)}</p>
+
           <p><strong>Overall Power:</strong> ${escapeHtml(app.overall_power)}</p>
           <p><strong>First March:</strong> ${escapeHtml(app.first_march_power)}</p>
           <p><strong>Second March:</strong> ${escapeHtml(app.second_march_power)}</p>
+          <p><strong>Third March:</strong> ${escapeHtml(app.third_march_power)}</p>
 
-          <p><strong>Reason:</strong><br>
-          ${escapeHtml(app.reason)}</p>
+          <p>
+            <strong>Reason:</strong><br>
+            ${escapeHtml(app.reason)}
+          </p>
 
           <div class="status ${status}">
             ${status.toUpperCase()}
@@ -209,12 +218,14 @@
             ${images}
           </div>
 
-          <button class="accept"
+          <button
+            class="accept"
             onclick="changeStatus(${Number(app.id)}, 'accepted')">
             ✓ ACCEPT
           </button>
 
-          <button class="reject"
+          <button
+            class="reject"
             onclick="changeStatus(${Number(app.id)}, 'rejected')">
             ✕ REJECT
           </button>
@@ -240,7 +251,10 @@
     }
 
     function escapeHtml(value) {
-      if (value === null || value === undefined) return "";
+
+      if (value === null || value === undefined) {
+        return "";
+      }
 
       return String(value)
         .replaceAll("&", "&amp;")
