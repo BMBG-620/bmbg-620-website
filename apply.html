@@ -38,10 +38,64 @@ button{width:100%;margin-top:20px;padding:17px;border:2px solid #e1aa46;border-r
  </label>
 <label>Username / in-game name<input name="username" required></label>
 <label>In-game ID <button type="button" onclick="document.getElementById('gameIdHelp').style.display='block'" style="width:auto;margin:0 0 0 8px;padding:4px 9px;font-size:12px;border:1px solid #e6ad48;background:#17120d;color:#e6ad48;">❓ WHERE IS MY ID?</button><input name="game_id" required></label>
- <div id="gameIdHelp" class="full" style="display:none;background:#0d0d0d;border:1px solid #e6ad48;border-radius:12px;padding:15px;text-align:center;">
-<strong style="color:#e6ad48;">❓ WHERE TO FIND YOUR GAME ID</strong>
-<p style="font-size:13px;">Open your account information in Dark War and look for the number beside <b>ID:</b></p>
-<img src="Screenshot_20260917_045005_Dark War.jpg" alt="Example showing where to find your Dark War Game ID" style="width:100%;max-width:600px;border-radius:10px;margin-top:8px;">
+ <label>Watchtower level
+<select name="watchtower_level" required>
+<option value="">Select Watchtower level</option>
+<option value="1">Watchtower 1</option>
+<option value="2">Watchtower 2</option>
+<option value="3">Watchtower 3</option>
+<option value="4">Watchtower 4</option>
+<option value="5">Watchtower 5</option>
+<option value="6">Watchtower 6</option>
+<option value="7">Watchtower 7</option>
+<option value="8">Watchtower 8</option>
+<option value="9">Watchtower 9</option>
+<option value="10">Watchtower 10</option>
+<option value="11">Watchtower 11</option>
+<option value="12">Watchtower 12</option>
+<option value="13">Watchtower 13</option>
+<option value="14">Watchtower 14</option>
+<option value="15">Watchtower 15</option>
+<option value="16">Watchtower 16</option>
+<option value="17">Watchtower 17</option>
+<option value="18">Watchtower 18</option>
+<option value="19">Watchtower 19</option>
+<option value="20">Watchtower 20</option>
+<option value="21">Watchtower 21</option>
+<option value="22">Watchtower 22</option>
+<option value="23">Watchtower 23</option>
+<option value="24">Watchtower 24</option>
+<option value="25">Watchtower 25</option>
+<option value="26">Watchtower 26</option>
+<option value="27">Watchtower 27</option>
+<option value="28">Watchtower 28</option>
+<option value="29">Watchtower 29</option>
+<option value="30">Watchtower 30</option>
+<option value="Industrial 1">Industrial 1</option>
+<option value="Industrial 2">Industrial 2</option>
+<option value="Industrial 3">Industrial 3</option>
+<option value="Industrial 4">Industrial 4</option>
+<option value="Industrial 5">Industrial 5</option>
+</select>
+</label>
+
+<label>Overall power
+<input name="overall_power" placeholder="e.g. 250M" required>
+</label>
+
+<label>First march power
+<input name="first_march_power" placeholder="e.g. 35M" required>
+</label>
+
+<label>Second march power
+<input name="second_march_power" placeholder="e.g. 28M" required>
+</label>
+
+<label>Third march power
+<input name="third_march_power" placeholder="e.g. 20M" required>
+</label>
+
+</div>
 <button type="button" onclick="document.getElementById('gameIdHelp').style.display='none'" style="margin-top:12px;">CLOSE</button>
  </div>
 <label>Current state<input name="current_state" required></label>
