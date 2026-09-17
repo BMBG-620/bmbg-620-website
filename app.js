@@ -42,6 +42,7 @@ form.addEventListener("submit", async (e) => {
       username: fd.get("username"),
       game_id: fd.get("game_id"),
       current_state: fd.get("current_state"),
+      current_clan: fd.get("current_clan"),
       preferred_clan: fd.get("preferred_clan"),
       backup_clan: fd.get("backup_clan"),
       overall_power: fd.get("overall_power"),
